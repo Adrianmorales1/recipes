@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Recipe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/css/edit.css')}}">
+</head>
+<body>
+    <div class="navbar">
+        <a href="/dashboard">back to recipes</a>
+        <a href="/reset">logout</a>
+    </div>
+    <h1>Edit Recipe!</h1>
+    {% with messages = get_flashed_messages(category_filter=['recipe']) %}
+                {% if messages %}
+                    <div class = 'error'>
+                        <p>INVALID!!!!</p>
+                        {% for message in messages %}
+                            <p>{{message}}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+    <form action="/update/{{recipe.id}}" method = 'post'>
+        <input type="hidden" name="id" value = "{{recipe.id}}">
+        <div>
+            <p>Name: <input type="text" name="name" value="{{recipe.name}}"></p>
+            <p>Description: <textarea name="description">{{recipe.description}}</textarea></p>
+            <p>Instruction: <textarea name="instruction">{{recipe.instruction}}</textarea></p>
+        </div>
+
+        <div>
+            <label>Date Cooked/Made:</label>
+            <input type="date" name="date_made" value = "{{recipe.date_made}}">
+            <div class = "under_time">
+                <label>Under 30 minutes?</label>
+                {% if recipe.under_time == "yes" %}
+                <label>Yes</label>
+                <input type="radio" name="under_time" value = "yes" checked>
+                <label>No</label>
+                <input type="radio" name="under_time" value = "no">
+                {% endif %}
+                {% if recipe.under_time == "no" %}
+                <label>Yes</label>
+                <input type="radio" name="under_time" value = "yes" >
+                <label>No</label>
+                <input type="radio" name="under_time" value = "no" checked>
+                {% endif %}
+            </div>
+            <button>Submit</button>
+        </div>
+    </form>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/css/dashboard.css')}}">
+</head>
+<body>
+    <div class = "container">
+        <div class = 'navbar'>
+            <div>
+                <h1>Welcome {{user.first_name}}!</h1>
+                <h3>All posted recipes:</h3>
+            </div>
+
+            <div class = "navlink">
+                <a href="/create">+Create |</a>
+                <a href="/reset">Logout</a>
+            </div>
+        </div>
+
+        <table class = "recipes">
+                <tr>
+                    <th>Like Review?</th>
+                    <th>Likes</th>
+                    <th>Name</th>
+                    <th>Under</th>
+                    <th>Posted By</th>
+                    <th>Actions</th>
+                </tr>
+                {% for recipe in all_recipes %}
+                    <tr>
+                        <td>
+                            {% if session.user_id in recipe.user_ids_who_favorited %}
+                                <form action="/recipes/{{recipe.id}}/unfavorite" method="post">
+                                    <input type="hidden" name="recipe_id" value = "{{recipe.id}}">
+                                    <input type="hidden" name="user_id" value = "{{session.user_id}}">
+                                    <button>Unlike</button>
+                                </form>
+                            {% else %}
+                                <form action="/recipes/{{recipe.id}}/favorite" method="post">
+                                    <input type="hidden" name="recipe_id" value = "{{recipe.id}}">
+                                    <input type="hidden" name="user_id" value = "{{session.user_id}}">
+                                    <button>Like</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                        <td>{{recipe.user_ids_who_favorited | length}}</td>
+                        <td>{{recipe.name}}</td>
+                        <td>{{recipe.under_time}}</td>
+                        <td>{{recipe.creator.first_name}}</td>
+                        <td>
+                            <a href="/show/{{recipe.id}}">view recipe</a>
+                            {% if recipe.creator.id == user.id %}
+                                <a href="/edit/{{recipe.id}}">edit</a>
+                                <a href="/delete/{{recipe.id}}">delete</a>
+                            {% endif %}
+                            
+                        </td>
+                        
+                    </tr>
+                {% endfor %}
+        </table>
+    </div>
+    
+</body>
+</html>

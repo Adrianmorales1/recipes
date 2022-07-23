@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Recipe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/css/add_new.css')}}">
+</head>
+<body>
+    <div class="navbar">
+        <a href="/dashboard">back to recipes</a>
+        <a href="/reset">logout</a>
+    </div>
+    <h1>Add a New Recipe!</h1>
+
+    <form action="/add/recipe" method = 'post'>
+        {% with messages = get_flashed_messages(category_filter=['recipe']) %}
+                {% if messages %}
+                    <div class = 'error'>
+                        <p>INVALID!!!!</p>
+                        {% for message in messages %}
+                            <p>{{message}}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+        <div>
+            <p>Name: <input type="text" name="name"></p>
+            <p>Description: <textarea name="description"></textarea></p>
+            <p>Instruction: <textarea name="instruction"></textarea></p>
+        </div>
+        <div>
+            <label>Date Cooked/Made:</label>
+            <input type="date" name="date_made">
+            <div class = "under">
+                <label>Under 30 minutes?</label>
+                <label>Yes</label>
+                <input type="radio" name="under_time" value = "yes">
+                <label>No</label>
+                <input type="radio" name="under_time" value = "no">
+            </div>
+            <button>Submit</button>
+        </div>
+    </form>
+</body>
+</html>

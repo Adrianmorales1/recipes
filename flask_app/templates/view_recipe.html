@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Recipe</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/css/view.css')}}">
+</head>
+<body>
+    <h1>Welcome, {{user.first_name}}</h1>
+    <div class="navbar">
+        <a href="/dashboard">back to recipes</a>
+        <a href="/reset">logout</a>
+    </div>
+    <div id = 'bg-color'>
+        <div class = "top">
+            <h1>{{recipe.name}}</h1>
+            <h3>Posted by: {{recipe.creator.first_name}}</h3>
+        </div>
+
+        <div class = "border">
+            <div class = "row">
+                <p>Description:</p>
+                <p>{{recipe.description}}</p>
+            </div>
+            <div class = "row">
+                <p>Under 30 minutes?:</p>
+                <p>{{recipe.under_time}}</p>
+            </div>
+            <div class = "row">
+                <p>Instructions:</p>
+                <p>{{recipe.instruction}}</p>
+            </div>
+            <div class = "row">
+                <p>Date Mode:</p>
+                <p>{{recipe.date_made}}</p>
+            </div>
+        </div>
+    </div>
+    
+</body>
+</html>
